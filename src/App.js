@@ -12,7 +12,9 @@ class App extends Component {
   };
 
   componentDidMount() {
-    this.setState({ contacts: readAtLocalStorage("contacts") });
+    if (readAtLocalStorage("contacts")) {
+      this.setState({ contacts: readAtLocalStorage("contacts") });
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {

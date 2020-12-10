@@ -1,18 +1,22 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import "./contactList.css";
 
-class ContactList extends Component {
-  filterItems = (query) => {
-    return this.props.contacts.filter(
-      (el) => el.name.toLowerCase().indexOf(query.toLowerCase()) > -1
+function ContactList({ contacts, filter, deleteContact }) {
+  const filterItems = (query) => {
+    return contacts.filter((el) =>
+      el.name.toLowerCase().includes(query.toLowerCase())
     );
   };
 
-  render() {
-    return (
-      <ul className="contact-list">
-        {this.filterItems(this.props.filter).map((item) => (
+  return (
+    <ul className="contact-list">
+      {contacts.length === 0 ? (
+        <p className="contact-item__text">
+          There are no contacts on your list yet
+        </p>
+      ) : (
+        filterItems(filter).map((item) => (
           <li className="contact-item" key={item.id}>
             <p className="contact-item__text">
               {item.name} :
@@ -21,15 +25,15 @@ class ContactList extends Component {
             <button
               className="btnDelete"
               type="button"
-              onClick={() => this.props.deleteContact(item.id)}
+              onClick={() => deleteContact(item.id)}
             >
               Delete
             </button>
           </li>
-        ))}
-      </ul>
-    );
-  }
+        ))
+      )}
+    </ul>
+  );
 }
 
 ContactList.propTypes = {
